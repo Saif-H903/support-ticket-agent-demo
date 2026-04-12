@@ -1,0 +1,30 @@
+[
+  {
+    "id": "faq-1",
+    "titel": "Verzend FAQ",
+    "categorie": "bestellingen",
+    "inhoud": "Bestellingen met status verzonden komen meestal binnen 2 werkdagen aan. Als een bestelling langer dan 3 werkdagen in behandeling staat, moet support dit handmatig onderzoeken.",
+    "trefwoorden": ["verzending", "verzonden", "bezorging", "bestelling", "order", "tracking", "pakket", "levering", "in behandeling"]
+  },
+  {
+    "id": "faq-2",
+    "titel": "Terugbetaling FAQ",
+    "categorie": "betalingen",
+    "inhoud": "Terugbetalingen worden binnen 5 tot 10 werkdagen na goedkeuring verwerkt. Klanten moeten weten dat de bank soms extra verwerkingstijd nodig heeft.",
+    "trefwoorden": ["terugbetaling", "refund", "geld", "betaling", "bank", "goedkeuring", "terugstorten"]
+  },
+  {
+    "id": "faq-3",
+    "titel": "Wachtwoord Reset FAQ",
+    "categorie": "accounts",
+    "inhoud": "Gebruikers kunnen hun wachtwoord opnieuw instellen via de loginpagina. Als de resetmail niet binnen 10 minuten aankomt, moet support controleren of het e-mailadres bij het account klopt.",
+    "trefwoorden": ["wachtwoord", "reset", "login", "e-mail", "email", "account", "resetmail"]
+  },
+  {
+    "id": "faq-4",
+    "titel": "Factuur FAQ",
+    "categorie": "betalingen",
+    "inhoud": "Facturen staan in het klantportaal onder Betalingen. Als een factuur ontbreekt na afronding van de bestelling, moet support de betaalstatus controleren.",
+    "trefwoorden": ["factuur", "invoice", "bon", "betaling", "klantportaal", "betaalstatus"]
+  }
+]

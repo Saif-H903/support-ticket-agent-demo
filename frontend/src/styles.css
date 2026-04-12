@@ -1,0 +1,390 @@
+:root {
+  color: #1d1f1e;
+  background: #f5f7f5;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.werkruimte {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
+  gap: 24px;
+  max-width: 1180px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.zijpaneel,
+.hoofdpaneel,
+.antwoordpaneel,
+.auditpaneel,
+.vraagblok {
+  border: 1px solid #dfe5df;
+  background: #ffffff;
+  border-radius: 8px;
+}
+
+.zijpaneel {
+  position: sticky;
+  top: 24px;
+  overflow: hidden;
+}
+
+.werkbeeld {
+  position: relative;
+  display: grid;
+  align-content: end;
+  min-height: 220px;
+  overflow: hidden;
+  padding: 22px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0 1px, transparent 1px 22px),
+    linear-gradient(45deg, #1d1f1e 0%, #0f7b5c 68%, #dff4ec 100%);
+}
+
+.werkbeeld::before {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 8px;
+}
+
+.ticketlijnen {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 10px;
+  max-width: 230px;
+}
+
+.ticketlijnen span {
+  display: block;
+  height: 18px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.ticketlijnen span:nth-child(2) {
+  width: 74%;
+}
+
+.ticketlijnen span:nth-child(3) {
+  width: 52%;
+}
+
+.visueel-label {
+  position: relative;
+  z-index: 1;
+  width: max-content;
+  margin-top: 18px;
+  border-radius: 8px;
+  background: rgba(29, 31, 30, 0.82);
+  color: #ffffff;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.merkblok {
+  padding: 24px;
+}
+
+.merkblok h1,
+.antwoordkop h2,
+.sectiekop h2 {
+  margin: 0;
+  line-height: 1.05;
+}
+
+.merkblok h1 {
+  max-width: 9ch;
+  font-size: 42px;
+}
+
+.merkblok p:not(.eyebrow) {
+  color: #5a635d;
+  line-height: 1.6;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #0f7b5c;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.statusrij {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid #dfe5df;
+  padding: 16px 24px;
+}
+
+.statusrij span,
+dt,
+.sectiekop span {
+  color: #68716b;
+  font-size: 13px;
+}
+
+.hoofdpaneel {
+  display: grid;
+  gap: 18px;
+  padding: 18px;
+}
+
+.vraagblok,
+.antwoordpaneel,
+.auditpaneel {
+  padding: 22px;
+}
+
+.vraagblok {
+  display: grid;
+  gap: 14px;
+}
+
+.vraagblok label {
+  display: block;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 130px;
+  border: 1px solid #ccd6cf;
+  border-radius: 8px;
+  padding: 14px 16px;
+  color: #1d1f1e;
+  background: #fbfcfb;
+  line-height: 1.5;
+}
+
+textarea:focus {
+  border-color: #0f7b5c;
+  outline: 3px solid rgba(15, 123, 92, 0.18);
+}
+
+.voorbeeldrij {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.voorbeeldrij button,
+.primaire-knop {
+  min-height: 42px;
+  border-radius: 8px;
+  border: 1px solid #cbd5cf;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.voorbeeldrij button {
+  background: #f4f8f6;
+  color: #1d1f1e;
+  padding: 8px 12px;
+}
+
+.voorbeeldrij button:hover,
+.primaire-knop:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.primaire-knop {
+  justify-self: start;
+  border: 0;
+  background: #0f7b5c;
+  color: #ffffff;
+  padding: 0 18px;
+  font-weight: 800;
+}
+
+.primaire-knop:disabled {
+  cursor: wait;
+  opacity: 0.75;
+}
+
+.antwoordpaneel {
+  display: grid;
+  gap: 18px;
+}
+
+.antwoordpaneel.leeg {
+  min-height: 190px;
+  align-content: center;
+}
+
+.antwoordkop,
+.sectiekop,
+.logkop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.antwoordtekst,
+.placeholder,
+.logitem p,
+.toolregel,
+.bronfragment p {
+  margin: 0;
+  color: #3d4640;
+  line-height: 1.6;
+}
+
+.metaraster {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+
+.metaraster div,
+.logitem {
+  border: 1px solid #dfe5df;
+  border-radius: 8px;
+  padding: 14px;
+  background: #fbfcfb;
+}
+
+dt {
+  margin-bottom: 4px;
+}
+
+dd {
+  margin: 0;
+  font-weight: 750;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.badge.groen {
+  background: #e6f5ee;
+  color: #0b684d;
+}
+
+.badge.rood {
+  background: #fbe8e8;
+  color: #a73232;
+}
+
+.bronfragment {
+  border: 1px solid #dfe5df;
+  border-left: 4px solid #0f7b5c;
+  border-radius: 8px;
+  background: #fbfcfb;
+  padding: 12px 14px;
+}
+
+.bronfragment strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #1d1f1e;
+}
+
+.toolregel {
+  border-left: 4px solid #0f7b5c;
+  padding-left: 12px;
+}
+
+.auditpaneel {
+  display: grid;
+  gap: 16px;
+}
+
+.loglijst {
+  display: grid;
+  gap: 12px;
+}
+
+.logitem {
+  display: grid;
+  gap: 10px;
+}
+
+.logmeta {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.foutmelding {
+  margin: 0;
+  border: 1px solid #f0b7b7;
+  border-radius: 8px;
+  background: #fff7f7;
+  color: #9b2c2c;
+  padding: 12px 14px;
+}
+
+@media (max-width: 860px) {
+  .app-shell {
+    padding: 12px;
+  }
+
+  .werkruimte,
+  .metaraster,
+  .logmeta {
+    grid-template-columns: 1fr;
+  }
+
+  .zijpaneel {
+    position: static;
+  }
+
+  .merkblok h1 {
+    max-width: 100%;
+    font-size: 34px;
+  }
+
+  .vraagblok label {
+    font-size: 24px;
+  }
+
+  .antwoordkop,
+  .sectiekop,
+  .logkop {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
