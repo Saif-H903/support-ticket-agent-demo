@@ -1,12 +1,14 @@
 # Support Ticket Agent Demo
 
-Een minimale full-stack demo voor een uitlegbare support-agent.
+Een full-stack AI support-agent demo gebouwd voor een sollicitatie, met retrieval, tool calling, confidence scoring, human-in-the-loop escalatie en audit logging.
 
 - Frontend: React + Vite
 - Backend: .NET 8 Web API
 - Storage: lokale JSON-bestanden
-- LLM: Ollama lokaal of OpenAI Responses API via `OPENAI_API_KEY`
+- LLM: Ollama lokaal of OpenAI Responses API
 - Tool: mock bestelstatus lookup
+
+Deze demo ondersteunt live LLM-generatie via Ollama of OpenAI, maar blijft ook zonder actieve modelprovider bruikbaar dankzij een veilige fallback.
 
 ## Wat de demo doet
 
@@ -17,6 +19,16 @@ Een minimale full-stack demo voor een uitlegbare support-agent.
 5. Bij lage confidence wordt het ticket doorgezet naar een menselijke medewerker.
 6. Bij voldoende confidence maakt de LLM een antwoord met alleen de opgehaalde context.
 7. Elke run wordt opgeslagen in `backend/Data/logs.json`.
+
+## Snel testen
+
+De demo kan op drie manieren draaien:
+
+1. **Met Ollama** voor lokale LLM-generatie
+2. **Met OpenAI** via een API-key
+3. **Zonder live model** via een veilige fallback
+
+Daardoor blijft de applicatie ook zonder extra setup functioneel te testen.
 
 ## Projectstructuur
 
@@ -30,6 +42,15 @@ frontend/
   src/
     components/
 ```
+
+## Uitlegbaarheid
+
+In de UI en audit trail is zichtbaar of een antwoord is gegenereerd via:
+- `ollama:<model>`
+- `openai:<model>`
+- `fallback:<reden>`
+
+Daardoor is direct controleerbaar of live AI is gebruikt.
 
 ## Starten
 
@@ -161,12 +182,12 @@ Dit maakt de agent-flow uitlegbaar en achteraf controleerbaar.
 - Lage confidence gaat naar een menselijke medewerker.
 - Elke run komt in de audit trail.
 
-## Known limitations
+## Bekende beperkingen
 
-- Uses keyword retrieval instead of embeddings or vector search.
-- Uses a mock order-status tool instead of a real commerce or CRM integration.
-- Uses lightweight in-memory session memory, so memory resets when the API restarts.
-- Uses heuristic confidence scoring rather than calibrated model evaluation.
+- Gebruikt keyword retrieval in plaats van embeddings of vector search.
+- Gebruikt een mock bestelstatus-tool in plaats van een echte koppeling met een order- of CRM-systeem.
+- Gebruikt lightweight sessiegeheugen in memory, dus het geheugen reset bij een herstart van de API.
+- Gebruikt heuristische confidence scoring in plaats van modelgekalibreerde evaluatie.
 
 ## LLM providers
 
@@ -174,4 +195,3 @@ De backend gebruikt standaard Ollama in development. Met `AI_PROVIDER=ollama` ro
 
 Met `AI_PROVIDER=openai` gebruikt de backend de OpenAI Responses API met `HttpClient`. De API-key komt uit `OPENAI_API_KEY`; het model kan met `OPENAI_MODEL` worden aangepast. In de UI en audit trail zie je dan bijvoorbeeld `openai:gpt-4.1-mini`.
 
-OpenAI documentatie: https://platform.openai.com/docs/api-reference/responses
