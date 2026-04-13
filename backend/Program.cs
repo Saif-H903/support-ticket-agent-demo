@@ -15,7 +15,10 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod();
     });
 });
-builder.Services.AddHttpClient<Backend.Services.TaalmodelService>();
+builder.Services.AddHttpClient<Backend.Services.TaalmodelService>(client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(20);
+});
 builder.Services.AddSingleton<Backend.Services.KennisbankService>();
 builder.Services.AddSingleton<Backend.Services.ZoekService>();
 builder.Services.AddSingleton<Backend.Services.BestelStatusService>();
@@ -33,3 +36,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
