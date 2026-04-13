@@ -150,6 +150,11 @@ public sealed partial class TaalmodelService
             _logger.LogWarning(ex, "OpenAI API-call is mislukt");
             return (fallbackAntwoord, "fallback:api-error");
         }
+        catch (TaskCanceledException ex)
+        {
+            _logger.LogWarning(ex, "OpenAI API-call duurde te lang");
+            return (fallbackAntwoord, "fallback:api-error");
+        }
 
         using (response)
         {
@@ -211,6 +216,11 @@ public sealed partial class TaalmodelService
         {
             _logger.LogWarning(ex, "Ollama API-call is mislukt");
             return (fallbackAntwoord, "fallback:ollama-api-error");
+        }
+        catch (TaskCanceledException ex)
+        {
+            _logger.LogWarning(ex, "Ollama API-call duurde te lang");
+            return (fallbackAntwoord, "fallback:ollama-timeout");
         }
 
         using (response)
