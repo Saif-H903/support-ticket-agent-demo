@@ -1,197 +1,62 @@
 # Support Ticket Agent Demo
 
-Een full-stack AI support-agent demo gebouwd voor een sollicitatie, met retrieval, tool calling, confidence scoring, human-in-the-loop escalatie en audit logging.
+Markdown-versie van de PDF met screenshots. De afbeeldingen staan los in de map `images/`, zodat GitHub ze direct kan weergeven.
 
-- Frontend: React + Vite
-- Backend: .NET 8 Web API
-- Storage: lokale JSON-bestanden
-- LLM: Ollama lokaal of OpenAI Responses API
-- Tool: mock bestelstatus lookup
+## Scenario's
 
-Deze demo ondersteunt live LLM-generatie via Ollama of OpenAI, maar blijft ook zonder actieve modelprovider bruikbaar dankzij een veilige fallback.
+| Scenario | Beschrijving |
+|---|---|
+| Scenario 1 | Automatisch antwoord met kennisbankcontext, tooluitvoer en audit trail. |
+| Scenario 2 | FAQ-flow voor terugbetaling met bronfragment, confidence en antwoordbron. |
+| Scenario 3 | De agent vraagt door wanneer een bestelnummer ontbreekt. |
+| Scenario 4 | Onzekere tooluitvoer leidt correct tot human-in-the-loop escalatie. |
 
-## Wat de demo doet
+---
 
-1. Een gebruiker stelt een supportvraag in de React UI.
-2. De backend zoekt de beste match in `backend/Data/knowledge-base.json`.
-3. Als de vraag over een bestelling gaat, gebruikt de backend de mock bestelstatus-tool.
-4. De backend berekent zelf een confidence score.
-5. Bij lage confidence wordt het ticket doorgezet naar een menselijke medewerker.
-6. Bij voldoende confidence maakt de LLM een antwoord met alleen de opgehaalde context.
-7. Elke run wordt opgeslagen in `backend/Data/logs.json`.
+## Scenario 1
 
-## Snel testen
+Automatisch antwoord met kennisbankcontext, tooluitvoer en audit trail.
 
-De demo kan op drie manieren draaien:
+![Scenario 1 - automatisch antwoord met kennisbankcontext, tooluitvoer en audit trail](images/scenario-1.png)
 
-1. **Met Ollama** voor lokale LLM-generatie
-2. **Met OpenAI** via een API-key
-3. **Zonder live model** via een veilige fallback
+---
 
-Daardoor blijft de applicatie ook zonder extra setup functioneel te testen.
+## Scenario 2
 
-## Projectstructuur
+FAQ-flow voor terugbetaling met bronfragment, confidence en antwoordbron.
+
+![Scenario 2 - FAQ-flow voor terugbetaling met bronfragment, confidence en antwoordbron](images/scenario-2.png)
+
+---
+
+## Scenario 3
+
+De agent vraagt door wanneer een bestelnummer ontbreekt.
+
+![Scenario 3 - agent vraagt door wanneer een bestelnummer ontbreekt](images/scenario-3.png)
+
+---
+
+## Scenario 4
+
+Onzekere tooluitvoer leidt correct tot human-in-the-loop escalatie.
+
+![Scenario 4 - human-in-the-loop escalatie bij onzekere tooluitvoer](images/scenario-4.png)
+
+---
+
+## GitHub-structuur
+
+Gebruik deze structuur in je repository:
 
 ```text
-backend/
-  Controllers/
-  Data/
-  Models/
-  Services/
-frontend/
-  src/
-    components/
+repo/
+├─ README.md
+└─ images/
+   ├─ scenario-1.png
+   ├─ scenario-2.png
+   ├─ scenario-3.png
+   └─ scenario-4.png
 ```
 
-## Uitlegbaarheid
-
-In de UI en audit trail is zichtbaar of een antwoord is gegenereerd via:
-- `ollama:<model>`
-- `openai:<model>`
-- `fallback:<reden>`
-
-Daardoor is direct controleerbaar of live AI is gebruikt.
-
-## Starten
-
-Backend met Ollama:
-
-```powershell
-ollama pull qwen3:1.7b
-ollama serve
-
-cd backend
-$env:AI_PROVIDER="ollama"
-$env:OLLAMA_BASE_URL="http://localhost:11434"
-$env:OLLAMA_MODEL="qwen3:1.7b"
-dotnet run --launch-profile http
-```
-
-In development staat `AI:Provider` al op `ollama` in `backend/appsettings.Development.json`, dus de environment variables zijn vooral handig als je tijdelijk een ander model of URL wilt gebruiken.
-
-Backend met OpenAI:
-
-```powershell
-cd backend
-$env:AI_PROVIDER="openai"
-$env:OPENAI_API_KEY="jouw-api-key"
-$env:OPENAI_MODEL="gpt-4.1-mini"
-dotnet run --launch-profile http
-```
-
-Als `OPENAI_API_KEY` ontbreekt wanneer `AI_PROVIDER=openai` actief is, gebruikt de demo een veilige fallback op basis van de gevonden bron. Dat maakt lokaal testen mogelijk zonder API-kosten.
-
-Frontend:
-
-```powershell
-cd frontend
-npm install
-npm run dev
-```
-
-Open daarna `http://127.0.0.1:5173`.
-
-## API
-
-```http
-POST /api/ondersteuning/vraag
-GET  /api/ondersteuning/logs
-GET  /api/tools/bestelstatus/{bestellingId}
-```
-
-Er zijn ook Engelstalige aliasroutes uit het plan beschikbaar:
-
-```http
-POST /api/support/ask
-GET  /api/support/logs
-GET  /api/tool/order-status/{bestellingId}
-```
-
-Voorbeeldrequest:
-
-```json
-{
-  "vraag": "Waar is bestelling 12345?",
-  "sessieId": "demo-sessie-1"
-}
-```
-
-Voorbeeldresponse:
-
-```json
-{
-  "antwoord": "Volgens 'Verzend FAQ' geldt: ...",
-  "antwoordBron": "ollama:qwen3:1.7b",
-  "vertrouwen": 0.95,
-  "escaleren": false,
-  "bronTitel": "Verzend FAQ",
-  "bronFragment": "Bestellingen met status verzonden ...",
-  "toolGebruikt": "bestelstatus",
-  "toolUitvoer": "Bestelling 12345: verzonden, verwacht binnen 2 werkdagen",
-  "besluitReden": "kennisbankmatch 'Verzend FAQ' gevonden; ..."
-}
-```
-
-## RAG
-
-De demo gebruikt een lichte RAG-flow: eerst zoekt de backend relevante kennisbankcontext, daarna krijgt de LLM alleen die context en eventuele tooluitvoer. Er is bewust geen vector database toegevoegd, omdat keyword overlap genoeg is voor een kleine sollicitatiedemo.
-
-## Memory
-
-`SessieGeheugenService` bewaart per `sessieId` de laatste interacties in geheugen. Die korte sessiecontext gaat mee naar de prompt, zodat de agent weet wat er net in dezelfde demo-sessie gebeurde. Dit is lightweight memory, geen permanente klantgeschiedenis.
-
-## Tool Calling
-
-`ToolRouterService` herkent bestelvragen met een bestelnummer. Daarna haalt `BestelStatusService` een mock-status op, bijvoorbeeld voor bestelling `12345`. De tool is expres simpel gehouden, zodat het agentpatroon duidelijk blijft zonder echte CRM- of orderkoppeling.
-
-## Human-In-The-Loop
-
-`VertrouwenService` bepaalt of de agent genoeg bewijs heeft. Als de score te laag is, geeft de backend geen verzonnen antwoord, maar markeert het ticket als escalatie naar een menselijke medewerker.
-
-## Confidence Threshold
-
-De drempel staat op `0.75`.
-
-- `>= 0.75`: automatisch beantwoorden
-- `< 0.75`: escaleren naar human-in-the-loop
-
-De LLM bepaalt deze score niet zelf. De backend berekent de score op basis van kennisbankmatch, toolgebruik, toolresultaat en vraagspecificiteit.
-
-## Audit Trail
-
-Elke request wordt opgeslagen in `backend/Data/logs.json` met:
-
-- tijdstip
-- sessie
-- vraag
-- antwoord
-- antwoordbron
-- gebruikte bron
-- confidence score
-- escalatieflag
-- tooluitvoer
-- besluitreden
-- eindactie
-
-Dit maakt de agent-flow uitlegbaar en achteraf controleerbaar.
-
-## Guardrails
-
-- Antwoorden alleen met opgehaalde kennisbankcontext en toolresultaten.
-- Geen giswerk zonder betrouwbare bron.
-- Lage confidence gaat naar een menselijke medewerker.
-- Elke run komt in de audit trail.
-
-## Bekende beperkingen
-
-- Gebruikt keyword retrieval in plaats van embeddings of vector search.
-- Gebruikt een mock bestelstatus-tool in plaats van een echte koppeling met een order- of CRM-systeem.
-- Gebruikt lightweight sessiegeheugen in memory, dus het geheugen reset bij een herstart van de API.
-- Gebruikt heuristische confidence scoring in plaats van modelgekalibreerde evaluatie.
-
-## LLM providers
-
-De backend gebruikt standaard Ollama in development. Met `AI_PROVIDER=ollama` roept de app lokaal `http://localhost:11434/api/chat` aan en gebruikt hij `OLLAMA_MODEL`, standaard `qwen3:1.7b`. In de UI en audit trail zie je dan bijvoorbeeld `ollama:qwen3:1.7b` als `Antwoordbron`.
-
-Met `AI_PROVIDER=openai` gebruikt de backend de OpenAI Responses API met `HttpClient`. De API-key komt uit `OPENAI_API_KEY`; het model kan met `OPENAI_MODEL` worden aangepast. In de UI en audit trail zie je dan bijvoorbeeld `openai:gpt-4.1-mini`.
-
+Upload `README.md` samen met de map `images/`, anders worden de afbeeldingen niet geladen.
