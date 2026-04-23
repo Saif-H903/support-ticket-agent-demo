@@ -194,4 +194,3 @@ Dit maakt de agent-flow uitlegbaar en achteraf controleerbaar.
 De backend gebruikt standaard Ollama in development. Met `AI_PROVIDER=ollama` roept de app lokaal `http://localhost:11434/api/chat` aan en gebruikt hij `OLLAMA_MODEL`, standaard `qwen3:1.7b`. In de UI en audit trail zie je dan bijvoorbeeld `ollama:qwen3:1.7b` als `Antwoordbron`.
 
 Met `AI_PROVIDER=openai` gebruikt de backend de OpenAI Responses API met `HttpClient`. De API-key komt uit `OPENAI_API_KEY`; het model kan met `OPENAI_MODEL` worden aangepast. In de UI en audit trail zie je dan bijvoorbeeld `openai:gpt-4.1-mini`.
-men met de map `images/`, anders worden de afbeeldingen niet geladen.
